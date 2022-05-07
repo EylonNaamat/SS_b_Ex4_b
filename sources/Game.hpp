@@ -8,10 +8,10 @@ namespace coup{
     class Game{
     public:
         std::vector<std::string> curr_players;
-        int player_turn;
+        int player_turn; // the index of player which is his turn to play
         const static int min_players = 2;
         const static int max_players = 6;
-        bool game_has_started;
+        bool game_has_started; // a flag which tells us whether the game has started or not
         int num_players;
     public:
         Game(){

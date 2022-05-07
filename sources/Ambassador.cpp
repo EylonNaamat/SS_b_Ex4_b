@@ -3,6 +3,20 @@
 //
 #include "Ambassador.hpp"
 namespace coup{
+    /**
+     * this function transfers 1 coin from one player to another
+     * first we check if the number of players is between 2-6, if not throw exception
+     * then, we check if the game has already started, if not we change the flag to true
+     * we check if its the players turn, if not throw exception
+     * check if the players are on the same game, else throw exception
+     * we check if the players are on the same game, if not throw exception
+     * we check if one of the players has already been eliminated from the game, if so throw exception
+     * we check if the number of coins is 10 or more, if its we throw exception because the player must coup
+     * if the first player dont have enough coins (less than 1) we throw exception
+     * we change the number of coins for both players and change the last operation
+     * @param player_a
+     * @param player_b
+     */
     void Ambassador::transfer(Player& player_a, Player& player_b){
         is_num_players_legal();
         start_game();
@@ -31,9 +45,19 @@ namespace coup{
         this->game->whose_turn();
     }
 
+    /**
+     * this function blocks the steal operation
+     * first we check if the number of players is between 2-6, if not throw exception
+     * check if the players are on the same game, else throw exception
+     * we check if the players are on the same game, if not throw exception
+     * we check if one of the players has already been eliminated from the game, if so throw exception
+     * if the players last operation isnt steal or steal1 we throw exception, because we cant block other operations
+     * then, we check if the player stole 1 coins or 2
+     * and update the number of coins according to it
+     * @param player
+     */
     void Ambassador::block(Player& player){
         is_num_players_legal();
-        start_game();
         if(player.game != this->game){
             throw std::invalid_argument("the players arent in the same game!!!");
         }
@@ -54,8 +78,13 @@ namespace coup{
             player.stole_from->num_coins += 1;
         }
         this->last_operation = "block";
+        player.last_operation = "blocked";
     }
 
+    /**
+     * this function is a virtual function, it returns the role of ambassador which is ambassador
+     * @return
+     */
     std::string Ambassador::role(){
         start_game();
         return "Ambassador";
